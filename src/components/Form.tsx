@@ -3,9 +3,10 @@ import React, {ChangeEvent, FC,useState } from "react";
 const Form: FC = () => {
 	const [value, setValue] = useState('');
 
-	const onSubmit = () =>{
-        
-    }
+	const onSubmit:any = (event: ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
+		console.log(value);
+	};
 
 	return (
 		<form onSubmit={onSubmit} className='form-inline mt-3 mb-3'>
