@@ -4,19 +4,21 @@ import {addTodoAsync} from '../redux/todoSlice';
 const Form: FC = () => {
 	const [value, setValue] = useState('');
 
+
 	const dispatch = useDispatch();
 
 	const onSubmit:any = (event: ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
-		console.log(value);
 		dispatch(
 			 addTodoAsync({
 				title:value,
 		}))
+		setValue('');
 	}; 
 
 	return (
-		<form onSubmit={onSubmit} className='form-inline mt-3 mb-3'>
+		<form  
+		onSubmit={onSubmit} className='form-inline mt-3 mb-3'>
 			<label className='sr-only'>Name</label>
 			<input
 				type='text'

@@ -95,25 +95,24 @@ const todoSlice = createSlice({
                    console.log('Fetching Data..') 
               },
               [getTodoAsync.fulfilled]:(state, action)=>{
-                  console.log('Data fetched Succesfully..!')
-                  return action.payload.todos;
+                  return action?.payload?.todos;
               },
 
               [addTodoAsync.fulfilled]:(state:any, action) =>{
-                  state.push(action.payload.todo);
+                  state.push(action?.payload?.todo);
               },
 
 
               [toggleCompleteAsync.fulfilled]: (state:any, action) => {
                 const index = state.findIndex(
-                    (todo:any) => todo.id === action.payload.todo.id
+                    (todo:any) => todo.id === action?.payload?.todo.id
                 );
-                state[index].completed = action.payload.todo.completed;
-                state[index].completed = action.payload.todo.completed;
+                state[index].completed = action?.payload?.todo?.completed;
+                state[index].completed = action?.payload?.todo?.completed;
                },
 
                [deleteTodoAsync.fulfilled]: (state, action) => {
-                return state.filter((todo:any) => todo.id !== action.payload.id);
+                return state.filter((todo:any) => todo.id !== action?.payload?.id);
                 },
 
           } ,
