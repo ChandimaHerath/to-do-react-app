@@ -4,23 +4,23 @@ import { strictEqual } from 'assert';
 export const getTodoAsync:any = createAsyncThunk(
     'todos/getTodosAsync',
      async()=>{
-     const response = await fetch('http://localhost:7000/todos');
+     const response = await fetch('http://localhost:3000/');
      if (response.ok){
          const todos = await response.json();
          return{todos} 
      }   
-});
+})
 
 export const toggleCompleteAsync:any = createAsyncThunk(
 	'todos/completeTodoAsync',
 	async (payload:any) => {
-		const resp = await fetch(`http://localhost:7000/todos/${payload.id}`, {
+		const resp = await fetch(`http://localhost:3000/put/${payload.id}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ completed: payload.completed }),
-		});
+		}); 
 
 		if (resp.ok) {
 			const todo = await resp.json();
@@ -32,12 +32,14 @@ export const toggleCompleteAsync:any = createAsyncThunk(
 export const addTodoAsync:any = createAsyncThunk(
 	'todos/addTodoAsync',
 	async (payload:any) => {
-		const resp = await fetch('http://localhost:7000/todos', {
+		const resp = await fetch('http://localhost:3000/post', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ title: payload.title }),
+			body: JSON.stringify({ title: payload.title,
+            id: Date.now(),
+            createdDate:Date.now() }),
 		});
 
 		if (resp.ok) {
@@ -49,7 +51,7 @@ export const addTodoAsync:any = createAsyncThunk(
 export const deleteTodoAsync:any = createAsyncThunk(
 	'todos/deleteTodoAsync',
 	async (payload:any) => {
-		const resp = await fetch(`http://localhost:7000/todos/${payload.id}`, {
+		const resp = await fetch(`http://localhost:3000/del/${payload.id}`, {
 			method: 'DELETE',
 		});
 
@@ -62,17 +64,10 @@ export const deleteTodoAsync:any = createAsyncThunk(
 const todoSlice = createSlice({
     name : 'todos',
     initialState:[
-        { id: 1, title: 'todo6', completed: false, expireDate:1638554916470 },
-        { id: 2, title: 'todo7', completed: false,  expireDate:1638554916470 },
-		{ id: 3, title: 'todo8', completed: true ,  expireDate:1638554916470},
-		{ id: 4, title: 'todo9', completed: false,  expireDate:1638554916470 },
-		{ id: 5, title: 'todo10', completed: false,  expireDate:1699999999999 },
-        { id: 6, title: 'todo110', completed: false,  expireDate:1699999999999 },
-        { id: 7, title: 'todo100', completed: false,  expireDate:1638554916470 }
-
+       
     ],
     reducers:{
-        addTodo:(state,action) =>{
+        addTodo:(state:any,action) =>{
             const newTodo = {
                 id: Date.now(),
                 title:action.payload.title,
@@ -82,15 +77,15 @@ const todoSlice = createSlice({
             state.push(newTodo);
         },
 
-        toggleComplete:(state, action) =>{
+        toggleComplete:(state:any, action) =>{
             const index = state.findIndex(
-                (todo)=>todo.id === action.payload.id
+                (todo:any)=>todo.id === action.payload.id
             );
             state[index].completed = action.payload.completed
         },
 
-         deleteTodo: (state,action) =>{
-             return state.filter((todo)=> todo.id !== action.payload.id);
+         deleteTodo: (state:any,action) =>{
+             return state.filter((todo:any)=> todo.id !== action.payload.id);
          } 
     },
 
@@ -104,20 +99,21 @@ const todoSlice = createSlice({
                   return action.payload.todos;
               },
 
-              [addTodoAsync.fulfilled]:(state, action) =>{
+              [addTodoAsync.fulfilled]:(state:any, action) =>{
                   state.push(action.payload.todo);
               },
 
 
-              [toggleCompleteAsync.fulfilled]: (state, action) => {
+              [toggleCompleteAsync.fulfilled]: (state:any, action) => {
                 const index = state.findIndex(
-                    (todo) => todo.id === action.payload.todo.id
+                    (todo:any) => todo.id === action.payload.todo.id
                 );
+                state[index].completed = action.payload.todo.completed;
                 state[index].completed = action.payload.todo.completed;
                },
 
                [deleteTodoAsync.fulfilled]: (state, action) => {
-                return state.filter((todo) => todo.id !== action.payload.id);
+                return state.filter((todo:any) => todo.id !== action.payload.id);
                 },
 
           } ,
