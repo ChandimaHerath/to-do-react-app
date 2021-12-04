@@ -9,6 +9,7 @@ const todoSlice = createSlice({
 		{ id: 4, title: 'todo9', completed: false,  expireDate:1638554916470 },
 		{ id: 5, title: 'todo10', completed: false,  expireDate:1699999999999 },
         { id: 6, title: 'todo110', completed: false,  expireDate:1699999999999 },
+        { id: 7, title: 'todo100', completed: false,  expireDate:1638554916470 }
 
     ],
     reducers:{
@@ -22,10 +23,17 @@ const todoSlice = createSlice({
             state.push(newTodo);
         },
 
+        toggleComplete:(state, action) =>{
+            const index = state.findIndex(
+                (todo)=>todo.id === action.payload.id
+            );
+            state[index].completed = action.payload.completed
+        },
+
 
     },
 });
 
-export const {addTodo} = todoSlice.actions;
+export const {addTodo,toggleComplete} = todoSlice.actions;
 
 export default todoSlice.reducer;
