@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { strictEqual } from 'assert';
 
-const getTodoAsync:any = createAsyncThunk(
+export const getTodoAsync:any = createAsyncThunk(
     'todos/getTodosAsync',
      async()=>{
      const response = await fetch('http://localhost:7000/todos');
@@ -48,7 +48,11 @@ const todoSlice = createSlice({
 
   
           extraReducers:{
+              [getTodoAsync.pending]:(state,action) =>{
+                   console.log('Fetching Data..') 
+              },
               [getTodoAsync.fulfilled]:(state, action)=>{
+                  console.log('Data fetched Succesfully..!')
                   return action.payload.todos;
               },
           } ,
