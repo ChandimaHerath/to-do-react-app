@@ -8,6 +8,8 @@ const todoSlice = createSlice({
 		{ id: 3, title: 'todo8', completed: true ,  expireDate:1638554916470},
 		{ id: 4, title: 'todo9', completed: false,  expireDate:1638554916470 },
 		{ id: 5, title: 'todo10', completed: false,  expireDate:1699999999999 },
+        { id: 6, title: 'todo110', completed: false,  expireDate:1699999999999 },
+
     ],
     reducers:{
         addTodo:(state,action) =>{

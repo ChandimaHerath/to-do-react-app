@@ -1,11 +1,18 @@
 import React, {ChangeEvent, FC,useState } from "react";
-
+import { useDispatch } from "react-redux";
+import {addTodo} from '../redux/todoSlice';
 const Form: FC = () => {
 	const [value, setValue] = useState('');
+
+	const dispatch = useDispatch();
 
 	const onSubmit:any = (event: ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
 		console.log(value);
+		dispatch(
+			 addTodo({
+				title:value,
+		}))
 	};
 
 	return (
