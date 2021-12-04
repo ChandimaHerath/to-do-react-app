@@ -1,5 +1,15 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { strictEqual } from 'assert';
+
+const getTodoAsync = createAsyncThunk(
+    'todos/getTodosAsync',
+     async()=>{
+     const response = await fetch('http://localhost:7000/todos');
+     if (response.ok){
+         const todos = await response.json();
+         return{todos} 
+     }   
+});
 
 const todoSlice = createSlice({
     name : 'todos',
