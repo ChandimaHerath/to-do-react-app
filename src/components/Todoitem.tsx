@@ -1,13 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleComplete } from '../redux/todoSlice';
+import { toggleComplete,deleteTodo } from '../redux/todoSlice';
 
 const TodoItem = ( { id,title,completed,expireDate}:any ) => {
 	const dispatch = useDispatch();
     
 	const handleCompleteClick = ()=>{
 		dispatch(toggleComplete({id:id,completed:!completed}))
+	} 
+
+	const handleDelete = () =>{
+		dispatch(deleteTodo({id:id}))
 	}
+
 	return (
 		<li key={id} className={`list-group-item ${expireDate<= Date.now() && 'list-group-item-danger'}`}>
 			<div className='d-flex justify-content-between'>
@@ -15,7 +20,7 @@ const TodoItem = ( { id,title,completed,expireDate}:any ) => {
 					<input type='checkbox' className='mr-3' onChange={handleCompleteClick} checked={completed}></input>
 					{title}
 				</span>
-				<button className='btn btn-danger'>Delete</button>
+				<button className='btn btn-danger' onClick={handleDelete}>Delete</button>
 			</div> 
 		</li>
 	);
