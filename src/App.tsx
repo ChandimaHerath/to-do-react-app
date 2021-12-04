@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import Form from './components/Form';
 import TodoList from './components/Todolist';
+
 
 function App() {
   return (
