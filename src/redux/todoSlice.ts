@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { strictEqual } from 'assert';
 
-const getTodoAsync = createAsyncThunk(
+const getTodoAsync:any = createAsyncThunk(
     'todos/getTodosAsync',
      async()=>{
      const response = await fetch('http://localhost:7000/todos');
@@ -45,6 +45,13 @@ const todoSlice = createSlice({
              return state.filter((todo)=> todo.id !== action.payload.id);
          } 
     },
+
+  
+          extraReducers:{
+              [getTodoAsync.fulfilled]:(state, action)=>{
+                  return action.payload.todos;
+              },
+          } ,
 });
 
 export const {addTodo,toggleComplete,deleteTodo} = todoSlice.actions;
