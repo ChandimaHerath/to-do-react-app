@@ -11,6 +11,24 @@ export const getTodoAsync:any = createAsyncThunk(
      }   
 });
 
+export const addTodoAsync:any = createAsyncThunk(
+	'todos/addTodoAsync',
+	async (payload:any) => {
+		const resp = await fetch('http://localhost:7000/todos', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ title: payload.title }),
+		});
+
+		if (resp.ok) {
+			const todo = await resp.json();
+			return { todo };
+		}
+	}
+);
+
 const todoSlice = createSlice({
     name : 'todos',
     initialState:[
@@ -46,7 +64,7 @@ const todoSlice = createSlice({
          } 
     },
 
-  
+   
           extraReducers:{
               [getTodoAsync.pending]:(state,action) =>{
                    console.log('Fetching Data..') 
@@ -55,6 +73,10 @@ const todoSlice = createSlice({
                   console.log('Data fetched Succesfully..!')
                   return action.payload.todos;
               },
+
+              [addTodoAsync.fulfilled]:(state, action) =>{
+                  state.push(action.payload.todo);
+              }
           } ,
 });
 

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FC,useState } from "react";
 import { useDispatch } from "react-redux";
-import {addTodo} from '../redux/todoSlice';
+import {addTodoAsync} from '../redux/todoSlice';
 const Form: FC = () => {
 	const [value, setValue] = useState('');
 
@@ -10,10 +10,10 @@ const Form: FC = () => {
 		event.preventDefault();
 		console.log(value);
 		dispatch(
-			 addTodo({
+			 addTodoAsync({
 				title:value,
 		}))
-	};
+	}; 
 
 	return (
 		<form onSubmit={onSubmit} className='form-inline mt-3 mb-3'>
