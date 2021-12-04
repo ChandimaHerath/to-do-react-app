@@ -46,6 +46,18 @@ export const addTodoAsync:any = createAsyncThunk(
 		}
 	}
 );
+export const deleteTodoAsync:any = createAsyncThunk(
+	'todos/deleteTodoAsync',
+	async (payload:any) => {
+		const resp = await fetch(`http://localhost:7000/todos/${payload.id}`, {
+			method: 'DELETE',
+		});
+
+		if (resp.ok) {
+			return { id: payload.id };
+		}
+	}
+);
 
 const todoSlice = createSlice({
     name : 'todos',
@@ -96,13 +108,18 @@ const todoSlice = createSlice({
                   state.push(action.payload.todo);
               },
 
-              
+
               [toggleCompleteAsync.fulfilled]: (state, action) => {
                 const index = state.findIndex(
                     (todo) => todo.id === action.payload.todo.id
                 );
                 state[index].completed = action.payload.todo.completed;
-            },
+               },
+
+               [deleteTodoAsync.fulfilled]: (state, action) => {
+                return state.filter((todo) => todo.id !== action.payload.id);
+                },
+
           } ,
 });
 
